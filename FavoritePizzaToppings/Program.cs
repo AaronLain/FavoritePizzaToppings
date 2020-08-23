@@ -17,12 +17,30 @@ namespace FavoritePizzaToppings
 
             var pizzas = JsonSerializer.Deserialize<List<Pizza>>(json);
 
+            var p = new Pizza();
+
             // Create a new list and populate it with the toppings from the pizzas
             var uToppings = new List<string>();
 
-            foreach (var pizza in pizzas)
+            var allOrders = new List<PizzaOrder>();
+
+            for (var i = 0; i < pizzas.Count; i++)
             {
-                foreach (var topping in pizza.toppings)
+                var toppings = new List<string>();
+
+                for (var j = 0; j < pizzas[i].toppings.Count; j++)
+                {
+                    toppings.Add(pizzas[i].toppings[j]);
+                }
+
+                var order = new PizzaOrder("pizza" + $"{i + 1}", toppings);
+
+                allOrders.Add(order);
+            }
+
+            for (var i = 0; i < pizzas.Count; i++)
+            {
+                foreach (var topping in pizzas[i].toppings)
                 {
                     uToppings.Add(topping);
                 }
@@ -31,15 +49,20 @@ namespace FavoritePizzaToppings
             // Create a new list of unique toppings and then create new instatiation of pizza
             var uniqueToppings = uToppings.Distinct().ToList();
 
-            var p = new Pizza();
+            // allOrders.Sort();
+
+
+            
 
             // Create a new dictionary to store our toppings and their counts.
             var toppingCounts = new Dictionary<string, int>();
 
+            
+
             // Iterate over our unique topping list and apply the toppingCounter method
             // which returns the count of each topping in the pizzas list
             // add the topping name as the key and the count as the value to our toppingCounts dictionary
-            foreach(var topping in uniqueToppings)
+            foreach (var topping in uniqueToppings)
             {
                 var count = p.toppingCounter(pizzas, topping);
                 toppingCounts.Add($"{topping}", count);
@@ -48,12 +71,25 @@ namespace FavoritePizzaToppings
             // use LINQ to sort the dictionary by DESCENDING values, only store the first 20
             var sortedToppings = (from topping in toppingCounts orderby topping.Value descending select topping).Take(20);
 
+             
+
             // print our newly sorted, counted list
             foreach (var (topping, count) in sortedToppings)
             {
                 Console.WriteLine($"{topping}: {count}");
             }
-    
+
+            foreach (var pizza in allOrders)
+            {
+                Console.WriteLine($"{pizza.Order}");
+
+                foreach (var topping in pizza.PizzaToppings)
+                {
+                    Console.WriteLine($"{topping}");
+                }
+            }
+
+           
         }
     }
 }
