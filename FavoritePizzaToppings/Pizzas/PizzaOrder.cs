@@ -11,11 +11,9 @@ namespace FavoritePizzaToppings.Pizzas
         public string Order { get; set; }
 
         public PizzaOrder(string order, List<string> pizzaToppings)
-        {
-
+        { 
             Order = order;
             PizzaToppings = pizzaToppings;
-
         }
     }
 }

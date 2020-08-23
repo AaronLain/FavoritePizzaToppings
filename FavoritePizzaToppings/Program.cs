@@ -17,14 +17,13 @@ namespace FavoritePizzaToppings
 
             var pizzas = JsonSerializer.Deserialize<List<Pizza>>(json);
 
-            var p = new Pizza();
+            var pizza = new Pizza();
 
             // Create a new list and populate it with the toppings from the pizzas
             var uToppings = new List<string>();
 
             var allOrders = new List<PizzaOrder>();
 
-            var toppingGroups = new List<List<string>>();
 
             for (var i = 0; i < pizzas.Count; i++)
             {
@@ -44,7 +43,6 @@ namespace FavoritePizzaToppings
 
             for (var i = 0; i < pizzas.Count; i++)
             {
-                toppingGroups.Add(pizzas[i].toppings);
                 foreach (var topping in pizzas[i].toppings)
                 {
                     uToppings.Add(topping);
@@ -63,27 +61,20 @@ namespace FavoritePizzaToppings
             // add the topping name as the key and the count as the value to our toppingCounts dictionary
             foreach (var topping in uniqueToppings)
             {
-                var count = p.toppingCounter(pizzas, topping);
+                var count = pizza.toppingCounter(pizzas, topping);
                 toppingCounts.Add($"{topping}", count);
             }
 
             // use LINQ to sort the dictionary by DESCENDING values, only store the first 20
-            var sortedToppings = (from topping in toppingCounts orderby topping.Value descending select topping).Take(20);
+            var sortedToppings = (from topping in toppingCounts 
+                                  orderby topping.Value descending 
+                                  select topping).Take(20);
 
             // print our newly sorted, counted list
             foreach (var (topping, count) in sortedToppings)
             {
-                Console.WriteLine($"{topping}: {count}");
+                Console.WriteLine($"{topping} was ordered {count} times.\r\n");
             };
-
-            foreach (var order in someOrder)
-            {
-                Console.WriteLine($"{order.Order} came with: ");
-                foreach (var topping in order.PizzaToppings)
-                {
-                    Console.WriteLine($"{topping}");
-                }
-            }
 
         }
     }
