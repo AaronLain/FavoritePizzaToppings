@@ -22,25 +22,6 @@ namespace FavoritePizzaToppings
             // Create a new list and populate it with the toppings from the pizzas
             var uToppings = new List<string>();
 
-            var allOrders = new List<PizzaOrder>();
-
-
-            for (var i = 0; i < pizzas.Count; i++)
-            {
-                var toppings = new List<string>();
-
-                for (var j = 0; j < pizzas[i].toppings.Count; j++)
-                {
-                    toppings.Add(pizzas[i].toppings[j]);
-                }
-
-                var order = new PizzaOrder("pizza" + $"{i + 1}", toppings);
-
-                allOrders.Add(order);
-            }
-
-            var someOrder = allOrders.GetRange(0, 20);
-
             for (var i = 0; i < pizzas.Count; i++)
             {
                 foreach (var topping in pizzas[i].toppings)
@@ -74,7 +55,7 @@ namespace FavoritePizzaToppings
             foreach (var (topping, count) in sortedToppings)
             {
                 Console.WriteLine($"{topping} was ordered {count} times.\r\n");
-            };
+            }
 
         }
     }
