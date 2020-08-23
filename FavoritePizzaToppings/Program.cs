@@ -24,6 +24,8 @@ namespace FavoritePizzaToppings
 
             var allOrders = new List<PizzaOrder>();
 
+            var toppingGroups = new List<List<string>>();
+
             for (var i = 0; i < pizzas.Count; i++)
             {
                 var toppings = new List<string>();
@@ -38,8 +40,11 @@ namespace FavoritePizzaToppings
                 allOrders.Add(order);
             }
 
+            var someOrder = allOrders.GetRange(0, 20);
+
             for (var i = 0; i < pizzas.Count; i++)
             {
+                toppingGroups.Add(pizzas[i].toppings);
                 foreach (var topping in pizzas[i].toppings)
                 {
                     uToppings.Add(topping);
@@ -49,16 +54,10 @@ namespace FavoritePizzaToppings
             // Create a new list of unique toppings and then create new instatiation of pizza
             var uniqueToppings = uToppings.Distinct().ToList();
 
-            // allOrders.Sort();
-
-
-            
-
             // Create a new dictionary to store our toppings and their counts.
             var toppingCounts = new Dictionary<string, int>();
 
-            
-
+  
             // Iterate over our unique topping list and apply the toppingCounter method
             // which returns the count of each topping in the pizzas list
             // add the topping name as the key and the count as the value to our toppingCounts dictionary
@@ -71,25 +70,21 @@ namespace FavoritePizzaToppings
             // use LINQ to sort the dictionary by DESCENDING values, only store the first 20
             var sortedToppings = (from topping in toppingCounts orderby topping.Value descending select topping).Take(20);
 
-             
-
             // print our newly sorted, counted list
             foreach (var (topping, count) in sortedToppings)
             {
                 Console.WriteLine($"{topping}: {count}");
-            }
+            };
 
-            foreach (var pizza in allOrders)
+            foreach (var order in someOrder)
             {
-                Console.WriteLine($"{pizza.Order}");
-
-                foreach (var topping in pizza.PizzaToppings)
+                Console.WriteLine($"{order.Order} came with: ");
+                foreach (var topping in order.PizzaToppings)
                 {
                     Console.WriteLine($"{topping}");
                 }
             }
 
-           
         }
     }
 }
